@@ -1,0 +1,49 @@
+networks:
+  bis_network:
+    external: true
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    networks:
+      - bis_network
+    volumes:
+      - jenkins_config:/var/jenkins_config
+      - jenkins_data:/var/jenkins_home
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - bis_network
+
+  nginx1:
+    image: nginx
+    container_name: nginx1
+    ports:
+      - "8081:80"
+      - "8443:443"
+    volumes:
+      - ./web:/usr/share/nginx/html:ro
+    networks:
+      - bis_network
+
+
+  nginx2:
+    image: nginx
+    container_name: nginx2
+    ports:
+      - "8082:80"
+      - "8444:443"
+    networks:
+      - bis_network
+
+volumes:
+  jenkins_config:
+  jenkins_data:
