@@ -1,15 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <title>Restaurants</title>
 </head>
 <body>
-  <h1>Restaurants list</h1>
-  <ul>
-    <li>Restaurant 69 - Tunis</li>
-    <li>Restaurant 2 - Ariana</li>
-    <li>Restaurant 3 - Manouba</li>
-  </ul>
+  <h1>Restaurants</h1>
+  <div id="out">Loading...</div>
+
+  <script>
+    fetch('/restaurants.json')
+      .then(r => r.json())
+      .then(data => {
+        const first = data.slice(0, 50); // show only 50
+        let html = '<ul>';
+        first.forEach(x => {
+          html += `<li>${x.name || 'No name'} - ${x.cuisine || 'Unknown cuisine'}</li>`;
+        });
+        html += '</ul>';
+        document.getElementById('out').innerHTML = html;
+      })
+      .catch(err => {
+        document.getElementById('out').textContent =
+          'Error: cannot load /restaurants.json. Make sure it is served by Nginx.';
+      });
+  </script>
 </body>
 </html>
