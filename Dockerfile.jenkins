@@ -1,3 +1,6 @@
+FROM nginx:alpine
+COPY web/ /usr/share/nginx/html/
+
 FROM jenkins/jenkins:lts
 USER root
 RUN apt-get update && apt-get install -y docker.io
