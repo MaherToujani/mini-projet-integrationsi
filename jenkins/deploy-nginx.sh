@@ -8,5 +8,5 @@ docker build -f Dockerfile.jenkins -t nginx_deploy_image .
 
 docker run -d --name nginx_deploy \
   -p 8085:80 \
-  --network bisnetwork \
+  --network bis_network \
   nginx_deploy_image
